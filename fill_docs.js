@@ -55,16 +55,16 @@ function fillDeedDocx(data, templatePath, outputPath) {
   // 1. Deed date
   xml = replaceFirst(xml, '_______________', certifyDate);
 
-  // 2. Grantor name
+  // 2. Grantor name (template has '____________________________,' with comma)
   xml = replaceFirst(xml, '____________________________,', fullGrantor + ',');
 
   // 3. Grantor address
   xml = replaceFirst(xml, 'whose address is</w:t>', 'whose address is ' + grantorAddr + '</w:t>');
 
-  // 4. Grantee name
-  xml = replaceFirst(xml, '___________________________', grantee || '___________________________');
+  // 4. Grantee name ONLY — template already has ', a Trust, dated ' as fixed text after
+  xml = replaceFirst(xml, '___________________________', grantee);
 
-  // 5. Trust date
+  // 5. Trust date — replaces '_____________' (the date placeholder after ', a Trust, dated ')
   xml = replaceFirst(xml, '_____________', trustDate);
 
   // 6. Grantee address
