@@ -31,7 +31,12 @@ function fillDeedDocx(data, templatePath, outputPath) {
   const priorGrantees = data.priorGrantees    || fullGrantor;
   const priorDeedDate = data.priorDeedDate    || '';
   const priorRecorded = data.priorRecordedDate || '';
-  const priorCounty   = data.priorCounty      || county;
+  // Claude returns 'priorCountyClerk' (e.g. "Burlington County Clerk's Office") — extract county name only
+  const rawPriorClerk = data.priorCounty || data.priorCountyClerk || county;
+  const priorCounty   = rawPriorClerk
+    .replace(/\s*county\s*(clerk|register|of deeds).*/i, '')
+    .replace(/\s*county\s*$/i, '')
+    .trim() || county;
   const priorBook     = data.priorBook        || '';
   const priorPage     = data.priorPage        || '';
   const instrumentNo  = data.instrumentNo     || '';
